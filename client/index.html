@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSCode Remote Agent Client</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: #f0f0f0; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        h1, h2 { margin-top: 0; }
+        input, button, select { padding: 8px; width: 100%; box-sizing: border-box; margin-bottom: 10px; }
+        button { background: #007acc; color: white; border: none; cursor: pointer; border-radius: 4px; }
+        button:hover { background: #0062a3; }
+        #chat-box { height: 200px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; background: #fafafa; }
+        .message { margin-bottom: 5px; }
+        .message.me { color: #007acc; font-weight: bold; }
+        .message.remote { color: #2e7d32; }
+    </style>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>VSCode Remote Agent Client</h1>
+    
+    <div class="card">
+        <h2>1. Connection</h2>
+        <div class="grid">
+            <div>
+                <label>Host URL</label>
+                <input type="text" id="hostUrl" value="http://localhost:3000" placeholder="http://localhost:3000">
+            </div>
+            <div>
+                <label>Secret</label>
+                <input type="text" id="secret" placeholder="Enter Secret from VSCode">
+            </div>
+        </div>
+        <button onclick="authenticate()">Connect & Authenticate</button>
+        <p id="status">Status: Disconnected</p>
+    </div>
+
+    <div id="app" style="opacity: 0.5; pointer-events: none;">
+        <div class="grid">
+            <div class="card">
+                <h2>2. Workspaces</h2>
+                <button onclick="listWorkspaces()">List Workspaces</button>
+                <ul id="workspace-list"></ul>
+                <hr>
+                <input type="text" id="switchPath" placeholder="Path to open...">
+                <button onclick="switchWorkspace()">Switch Workspace</button>
+            </div>
+            
+            <div class="card">
+                <h2>3. File-System</h2>
+                <input type="text" id="filePath" placeholder="File Path (e.g. package.json)">
+                <button onclick="readFile()">Read File</button>
+                <textarea id="fileContent" style="width: 100%; height: 100px; margin-bottom: 10px;" placeholder="Content..."></textarea>
+                <button onclick="writeFile()">Write File</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>4. Chat</h2>
+            <div id="chat-box"></div>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="handleChatEnter(event)">
+                <button style="width: auto;" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

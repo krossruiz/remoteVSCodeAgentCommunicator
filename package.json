@@ -1,0 +1,54 @@
+{
+    "name": "remote-vscode-agent",
+    "displayName": "Remote VSCode Agent Communicator",
+    "description": "API for remote devices to communicate with VSCode",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.90.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "remote-agent.startServer",
+                "title": "Start Remote Agent Server"
+            },
+            {
+                "command": "remote-agent.stopServer",
+                "title": "Stop Remote Agent Server"
+            }
+        ]
+    },
+    "views": {
+        "explorer": [
+            {
+                "type": "webview",
+                "id": "remote-agent.chat",
+                "name": "Remote Chat"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.19",
+        "@types/express": "^4.17.21",
+        "@types/node": "^20.0.0",
+        "@types/vscode": "^1.90.0",
+        "typescript": "^5.4.5"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.19.2",
+        "socket.io": "^4.7.5"
+    }
+}
